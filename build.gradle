@@ -1,0 +1,120 @@
+
+buildscript {
+    repositories {
+        mavenCentral();
+        maven {
+            url("https://plugins.gradle.org/m2/");
+        }
+    }
+    dependencies {
+        classpath(group: "gradle.plugin.com.iadams.plugins",
+            name: "gradle-sonar-packaging-plugin", version: "0.1.4");
+    }
+};
+
+apply(plugin: "com.iadams.sonar-packaging");
+apply(plugin: "java");
+apply(plugin: "maven");
+apply(plugin: "signing");
+apply(plugin: "idea");
+apply(plugin: "eclipse");
+
+group = "com.roche";
+version = "1.0.0-SNAPSHOT";
+
+def javaVersion = JavaVersion.VERSION_1_8;
+sourceCompatibility = javaVersion;
+targetCompatibility = javaVersion; // defaults to sourceCompatibility
+
+/*
+ * The list of repositories to use
+ *
+ * The first item in the list is the Maven repository where the Lite Solutions
+ * cachequality API is located.
+ */
+repositories {
+    maven { url "https://maven.litesolutions.org/content/repositories/litesolutions-releases" };
+    mavenCentral();
+}
+
+/*
+ * This is necessary for creating a plugin
+ */
+configurations {
+    provided;
+    compile.extendsFrom(provided);
+}
+
+/*
+ * List of dependencies
+ *
+ * The first item is the Caché Quality API itself; the second is the SonarQube
+ * API used.
+ *
+ * DO NOT change either of these unless otherwise instructed by Lite Solutions.
+ */
+dependencies {
+    compile(group: "com.cachequality", name: "cachequality-api",
+        version: "1.0.2.1");
+    provided(group: "org.codehaus.sonar", name: "sonar-plugin-api",
+        version: "5.1");
+}
+
+test {
+    useTestNG() {
+        useDefaultListeners = true;
+    };
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.12";
+    distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
+}
+
+/*
+ * Definitions of the SonarQube module
+ */
+sonarPackaging {
+    /*
+     * The key of the plugin. It must be unique across all plugins in SonarQube.
+     *
+     * The recommended namespace is "cq" + a short name for your enterprise or
+     * organization; for instance "cqexample".
+     */
+    pluginKey = "cqexample";
+    /*
+     * The class in the plugin which contains the plugin extension list; this
+     * class must extend SonarPlugin.
+     */
+    pluginClass = "com.example.cq.CqExamplePlugin";
+    /*
+     * The name of the plugin.
+     *
+     * As for the key, it is required to be unique across all plugins.
+     */
+    pluginName = "ObjectScript (example)";
+    /*
+     * Free form, optional description for this plugin
+     */
+    pluginDescription = "Example of a CachéQuality custom module";
+    /*
+     * The license for this plugin. You may specify whichever license you want.
+     */
+    pluginLicense = "Proprietary";
+    /*
+     * List of developers for the plugin.
+     */
+    pluginDevelopers = "Francis Galiegue (francis.galiegue@litesolutions.es)";
+    /*
+     * NECESSARY: do not remove!
+     */
+    basePlugin = "objectscript";
+    /*
+     * Optional organization specification
+     */
+    organization {
+        name = "Roche";
+        url = "http://www.roche.com";
+    };
+}
+
