@@ -3,6 +3,7 @@ package com.example.cq.checks;
 import com.cachequality.api.IssueTags;
 import com.cachequality.api.ast.grammars.statements.FlowctlGrammar;
 import com.cachequality.api.check.ObjectScriptCheck;
+import com.example.cq.PluginConstants;
 import com.google.common.annotations.VisibleForTesting;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
@@ -24,6 +25,13 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
  * <p>A visitor pattern is used; you will be able to perform the check either
  * when the node is visited (using {@link #visitNode(AstNode)}) or after the
  * node has been visited (using {@link #leaveNode(AstNode)}).</p>
+ *
+ * <p><em>Important:</em> do not forget the HTML description. It is in the
+ * resources directory ({@code src/main/resources}) and must be named {@code
+ * org/sonar/l10n/objectscripts/rule/repokey/rulekey.html}, where {@code
+ * repokey} is the repository name (defined by {@link
+ * PluginConstants#RULEREPO_KEY} in this project) and {@code rulekey} is the key
+ * of this rule (see the {@link #KEY} constant defined below).</p>
  */
 
 /*
