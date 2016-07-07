@@ -3,6 +3,7 @@ package com.example.cq.checks;
 import com.cachequality.api.IssueTags;
 import com.cachequality.api.ast.grammars.statements.FlowctlGrammar;
 import com.cachequality.api.check.ObjectScriptCheck;
+import com.google.common.annotations.VisibleForTesting;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import org.sonar.api.server.rule.RulesDefinition;
@@ -54,7 +55,7 @@ public final class LegacyFlowctlUsageCheck
      *
      * Here, CQEX is an abbreviation for "cqexample".
      */
-    static final String KEY = "CQEX001";
+    static final String KEY = "CQEX0001";
 
     /*
      * The name of the check. This will appear in the check list in SonarQube,
@@ -68,13 +69,13 @@ public final class LegacyFlowctlUsageCheck
      * If the message is parameterized, use format specifiers as below, and use
      * String.format() to generate the message.
      */
-    private static final String MESSAGE
-        = "Consider using the braced expression form of this %s statement";
+    @VisibleForTesting
+    static final String MESSAGE = "Avoid using legacy flow control statements";
 
     @Override
     public void init()
     {
-        subscribeTo(FlowctlGrammar.LEGACY_IF, FlowctlGrammar.LEGACY_FOR);
+        subscribeTo(FlowctlGrammar.LEGACY);
     }
 
     @Override
@@ -91,7 +92,6 @@ public final class LegacyFlowctlUsageCheck
          * using SonarQube's AstNode class, which is the argument to this
          * method.
          */
-        getContext().createLineViolation(this, String.format(MESSAGE, what),
-            astNode);
+        getContext().createLineViolation(this, MESSAGE, astNode);
     }
 }
