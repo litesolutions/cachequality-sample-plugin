@@ -19,7 +19,7 @@ apply(plugin: "signing");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
 
-group = "com.roche";
+group = "com.mycompany";
 version = "1.0.0-SNAPSHOT";
 
 def javaVersion = JavaVersion.VERSION_1_8;
@@ -55,11 +55,11 @@ configurations {
  */
 dependencies {
     compile(group: "com.cachequality", name: "cachequality-api",
-        version: "1.0.2.1");
+        version: "3.4");
     provided(group: "org.codehaus.sonar", name: "sonar-plugin-api",
-        version: "5.1");
+        version: "5.2");
     testCompile(group: "com.cachequality", name: "cachequality-api-testing",
-            version: "1.0.2.1");
+            version: "3.4");
 }
 
 test {
@@ -106,7 +106,7 @@ sonarPackaging {
     /*
      * List of developers for the plugin.
      */
-    pluginDevelopers = "Francis Galiegue (francis.galiegue@litesolutions.es)";
+    pluginDevelopers = "Developer Name (developer@mycompany.com)";
     /*
      * NECESSARY: do not remove!
      */
@@ -115,8 +115,8 @@ sonarPackaging {
      * Optional organization specification
      */
     organization {
-        name = "Roche";
-        url = "http://www.roche.com";
+        name = "MyCompany";
+        url = "http://www.mycompany.com";
     };
 }
 
