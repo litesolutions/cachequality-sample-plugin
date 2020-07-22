@@ -13,7 +13,7 @@ public final class PluginConstants
         throw new Error("no instantiation is permitted");
     }
 
-    public static final String RULEREPO_KEY = "cqexample";
+    public static final String RULEREPO_KEY = "objectscriptquality";
 
-    public static final String RULEREPO_NAME = "Caché Quality (example)";
+    public static final String RULEREPO_NAME = "ObjectScript Quality";
 }

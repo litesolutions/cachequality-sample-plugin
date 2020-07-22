@@ -1,7 +1,7 @@
 package com.example.cq.checks;
 
-import com.cachequality.api.CacheQualityRulesDefinition;
-import com.cachequality.checks.CheckTest;
+import com.objectscriptquality.api.ObjectScriptQualityRulesDefinition;
+import com.objectscriptquality.checks.CheckTest;
 import com.example.cq.CqExampleRules;
 import org.testng.annotations.Test;
 
@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 public abstract class CqExampleCheckTest
     extends CheckTest
 {
-    private static final CacheQualityRulesDefinition DEF
+    private static final ObjectScriptQualityRulesDefinition DEF
         = new CqExampleRules();
 
     protected CqExampleCheckTest(final String key)

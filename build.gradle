@@ -20,7 +20,7 @@ apply(plugin: "idea");
 apply(plugin: "eclipse");
 
 group = "com.mycompany";
-version = "1.0.0-SNAPSHOT";
+version = "1.0.2";
 
 def javaVersion = JavaVersion.VERSION_1_8;
 sourceCompatibility = javaVersion;
@@ -33,7 +33,8 @@ targetCompatibility = javaVersion; // defaults to sourceCompatibility
  * cachequality API is located.
  */
 repositories {
-    maven { url "https://maven.litesolutions.org/content/repositories/litesolutions-releases" };
+	mavenLocal();
+    maven { url "https://maven.litesolutions.es/content/repositories/litesolutions-releases" };    
     mavenCentral();
 }
 
@@ -54,12 +55,14 @@ configurations {
  * DO NOT change either of these unless otherwise instructed by Lite Solutions.
  */
 dependencies {
-    compile(group: "com.cachequality", name: "cachequality-api",
-        version: "3.4");
-    provided(group: "org.codehaus.sonar", name: "sonar-plugin-api",
-        version: "5.2");
-    testCompile(group: "com.cachequality", name: "cachequality-api-testing",
-            version: "3.4");
+    compile(group: "com.objectscriptquality", name: "objectscriptquality-api",
+        version: "3.1.2");
+    provided(group: "org.sonarsource.sonarqube", name: "sonar-plugin-api", version: "6.0");
+    testCompile(group: "com.objectscriptquality", name: "objectscriptquality-api-testing",
+            version: "3.1.2");
+    testCompile(group: "com.google.guava", name: "guava",
+        version: "10.0.1");
+    compile 'com.google.guava:guava:10.0.1'
 }
 
 test {
@@ -98,7 +101,7 @@ sonarPackaging {
     /*
      * Free form, optional description for this plugin
      */
-    pluginDescription = "Example of a CachéQuality custom module";
+    pluginDescription = "Example of a Objectscriptquality custom module";
     /*
      * The license for this plugin. You may specify whichever license you want.
      */

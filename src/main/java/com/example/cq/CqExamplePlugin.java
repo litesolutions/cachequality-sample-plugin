@@ -1,10 +1,10 @@
 package com.example.cq;
 
-import com.cachequality.api.CacheQualityRulesDefinition;
-import org.sonar.api.SonarPlugin;
+import java.util.Locale;
 
-import java.util.Collections;
-import java.util.List;
+import org.sonar.api.Plugin;
+
+import com.objectscriptquality.api.ObjectScriptQualityRulesDefinition;
 
 /**
  * The plugin class
@@ -17,11 +17,17 @@ import java.util.List;
  * {@link CacheQualityRulesDefinition} in here.</p>
  */
 public final class CqExamplePlugin
-    extends SonarPlugin
-{
+implements Plugin {
+    static {
+        Locale.setDefault(Locale.ENGLISH);
+    }
+
     @Override
-    public List getExtensions()
-    {
-        return Collections.singletonList(CqExampleRules.class);
+    public void define(Context context) {
+
+    	
+        context.addExtension(
+        		CqExampleRules.class
+        );
     }
 }

@@ -1,8 +1,8 @@
 package com.example.cq;
 
-import com.cachequality.api.CacheQualityRulesDefinition;
-import com.cachequality.api.check.ObjectScriptCheck;
-import com.example.cq.checks.LegacyFlowctlUsageCheck;
+import com.example.cq.checks.VariableNameLengthCheck;
+import com.objectscriptquality.api.ObjectScriptQualityRulesDefinition;
+import com.objectscriptquality.api.check.ObjectScriptCheck;
 import org.sonar.api.config.Settings;
 
 import java.util.Collections;
@@ -14,7 +14,7 @@ import java.util.List;
  *
  */
 public final class CqExampleRules
-    extends CacheQualityRulesDefinition
+    extends ObjectScriptQualityRulesDefinition
 {
     /**
      * The name of the repository
@@ -58,7 +58,7 @@ public final class CqExampleRules
     @Override
     public List<Class> checkClasses()
     {
-        return Collections.singletonList(LegacyFlowctlUsageCheck.class);
+        return Collections.singletonList(VariableNameLengthCheck.class);
     }
 
     /**
@@ -72,20 +72,19 @@ public final class CqExampleRules
     @Override
     public List<Class<? extends ObjectScriptCheck>> noargChecks()
     {
-        return Collections.singletonList(LegacyFlowctlUsageCheck.class);
+        return Collections.singletonList(VariableNameLengthCheck.class);
     }
 
     /**
-     * List of all checks with a {@link Settings} instance as an argument
+     * List of all checks 
      *
      * <p>Here, it is up to the user to provide an instance of the check by
      * calling the constructor.</p>
      *
-     * @param settings the settings instance (never null)
      * @return see description
      */
     @Override
-    public List<ObjectScriptCheck> argChecks(final Settings settings)
+    public List<ObjectScriptCheck> argChecks()
     {
         return Collections.emptyList();
     }
