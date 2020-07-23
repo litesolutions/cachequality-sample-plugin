@@ -1,18 +1,31 @@
 
 buildscript {
     repositories {
+        mavenLocal();
         mavenCentral();
         maven {
             url("https://plugins.gradle.org/m2/");
-        }
+        };
+        jcenter();
     }
     dependencies {
         classpath(group: "gradle.plugin.com.iadams.plugins",
             name: "gradle-sonar-packaging-plugin", version: "0.1.4");
+        classpath(group: "net.nemerosa", name: "versioning", version: "2.4.0");
     }
 };
 
-apply(plugin: "com.iadams.sonar-packaging");
+plugins {
+    id "com.github.johnrengelman.shadow" version "4.0.3"
+}
+
+apply(plugin: "net.nemerosa.versioning");
+
+ext {
+    sonarApiVersion = '6.0'
+}
+
+
 apply(plugin: "java");
 apply(plugin: "maven");
 apply(plugin: "signing");
@@ -55,6 +68,8 @@ configurations {
  * DO NOT change either of these unless otherwise instructed by Lite Solutions.
  */
 dependencies {
+    compileOnly "org.sonarsource.sonarqube:sonar-plugin-api:${sonarApiVersion}"
+    testImplementation "org.sonarsource.sonarqube:sonar-plugin-api:${sonarApiVersion}"
     compile(group: "com.objectscriptquality", name: "objectscriptquality-api",
         version: "3.1.2");
     provided(group: "org.sonarsource.sonarqube", name: "sonar-plugin-api", version: "6.0");
@@ -65,6 +80,27 @@ dependencies {
     compile 'com.google.guava:guava:10.0.1'
 }
 
+jar {
+    manifest {
+        attributes "Build-Jdk": System.getProperty('java.version'),
+                   "Build-Time": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                   "Plugin-BuildDate": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                   'Plugin-Key': 'objectscriptExample',
+                   'Plugin-Name': 'ObjectScriptExmaple',
+                   //'Plugin-Version': project.version,
+                   'Plugin-Class': 'com.example.cq.CqExamplePlugin',
+                   "Plugin-Description": 'Plugin for ObjectScript language (Example)',
+                   "Plugin-Developers": 'objectscriptQuality Team (developers@litesolutions.es)',
+                   "Plugin-Homepage": 'https://objectscriptquality.com/',
+                   "Plugin-License": 'Proprietary',
+                   "Plugin-Organization": 'Lite solutions',
+                   "Plugin-OrganizationUrl": 'http://www.litesolutions.es/',
+                   "Sonar-Version": project.ext.sonarApiVersion
+    }
+}
+
+
+
 test {
     useTestNG() {
         useDefaultListeners = true;
@@ -72,54 +108,8 @@ test {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "2.12";
+    gradleVersion = "4.8.1";
     distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 
-/*
- * Definitions of the SonarQube module
- */
-sonarPackaging {
-    /*
-     * The key of the plugin. It must be unique across all plugins in SonarQube.
-     *
-     * The recommended namespace is "cq" + a short name for your enterprise or
-     * organization; for instance "cqexample".
-     */
-    pluginKey = "cqexample";
-    /*
-     * The class in the plugin which contains the plugin extension list; this
-     * class must extend SonarPlugin.
-     */
-    pluginClass = "com.example.cq.CqExamplePlugin";
-    /*
-     * The name of the plugin.
-     *
-     * As for the key, it is required to be unique across all plugins.
-     */
-    pluginName = "ObjectScript (example)";
-    /*
-     * Free form, optional description for this plugin
-     */
-    pluginDescription = "Example of a Objectscriptquality custom module";
-    /*
-     * The license for this plugin. You may specify whichever license you want.
-     */
-    pluginLicense = "Proprietary";
-    /*
-     * List of developers for the plugin.
-     */
-    pluginDevelopers = "Developer Name (developer@mycompany.com)";
-    /*
-     * NECESSARY: do not remove!
-     */
-    basePlugin = "objectscript";
-    /*
-     * Optional organization specification
-     */
-    organization {
-        name = "MyCompany";
-        url = "http://www.mycompany.com";
-    };
-}
 
